@@ -1,0 +1,21 @@
+{% extends 'flower_shop/base.html' %}
+
+{% block content %}
+<h1>Оформление заказа</h1>
+{% if cart_items %}
+<form method="post">
+    {% csrf_token %}
+    <div>
+        <label for="address">Адрес доставки:</label>
+        <input type="text" id="address" name="address" value="{{ user.address|default:'' }}" required>
+    </div>
+    <div>
+        <label for="phone">Телефон:</label>
+        <input type="text" id="phone" name="phone" value="{{ user.phone|default:'' }}" required>
+    </div>
+    <button type="submit">Подтвердить заказ</button>
+</form>
+{% else %}
+<p>Ваша корзина пуста. <a href="{% url 'products' %}">Вернуться к ассортименту</a></p>
+{% endif %}
+{% endblock %}

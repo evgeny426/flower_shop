@@ -1,0 +1,75 @@
+{% extends 'flower_shop/base.html' %}
+
+{% block title %}Корзина{% endblock %}
+
+{% block content %}
+<h1>Корзина</h1>
+{% if cart_items %}
+<div class="cart-items">
+    {% for item in cart_items %}
+    <div class="cart-item">
+        <img src="{{ item.flower.image.url }}" alt="{{ item.flower.name }}">
+        <div class="item-details">
+            <h3>{{ item.flower.name }}</h3>
+            <p>{{ item.flower.description }}</p>
+            <p class="price">{{ item.flower.price }} руб. за шт.</p>
+            <div class="quantity-controls">
+                <button class="quantity-btn" data-item-id="{% if request.user.is_authenticated %}{{ item.id }}{% else %}{{ item.flower.id }}{% endif %}" data-action="decrease">-</button>
+                <span class="quantity">{{ item.quantity }}</span>
+                <button class="quantity-btn" data-item-id="{% if request.user.is_authenticated %}{{ item.id }}{% else %}{{ item.flower.id }}{% endif %}" data-action="increase">+</button>
+            </div>
+            <p class="total-price">Итого: {{ item.total_price }} руб.</p>
+            <button class="remove-btn" data-item-id="{% if request.user.is_authenticated %}{{ item.id }}{% else %}{{ item.flower.id }}{% endif %}">Удалить</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="cart-summary">
+    <p>Общая стоимость: {{ total_price }} руб.</p>
+    <a href="{% url 'checkout' %}" class="checkout-btn">Оформить заказ</a>
+</div>
+{% else %}
+<p>Ваша корзина пуста.</p>
+{% endif %}
+
+<script>
+    document.querySelectorAll('.quantity-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = this.getAttribute('data-item-id');
+            const action = this.getAttribute('data-action');
+            fetch(`/update-cart/${itemId}/${action}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();  // Перезагружаем страницу для обновления данных
+                } else {
+                    alert('Ошибка при обновлении корзины.');
+                }
+            });
+        });
+    });
+
+    document.querySelectorAll('.remove-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const itemId = this.getAttribute('data-item-id');
+            fetch(`/remove-from-cart/${itemId}/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }).then(response => {
+                if (response.ok) {
+                    location.reload();  // Перезагружаем страницу для обновления данных
+                } else {
+                    alert('Ошибка при удалении товара из корзины.');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
