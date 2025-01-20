@@ -211,6 +211,7 @@ a:hover {
 .quantity-controls .quantity {
     font-size: 1.1em;
     font-weight: bold;
+    color: black;  /* Черный цвет текста */
 }
 
 .total-price {
@@ -238,13 +239,14 @@ a:hover {
     text-align: right;
     margin-top: 20px;
     padding: 20px;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid white;
+    color: white;  /* Белый цвет текста */
 }
 
 .cart-summary p {
     font-size: 1.2em;
     font-weight: bold;
-    color: #333;
+    color: white;  /* Белый цвет текста */
 }
 
 .checkout-btn {

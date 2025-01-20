@@ -1,0 +1,33 @@
+{% extends 'flower_shop/base.html' %}
+
+{% block title %}История заказов{% endblock %}
+
+{% block content %}
+<h1>История заказов</h1>
+{% if orders %}
+    <table>
+        <thead>
+            <tr>
+                <th>Номер заказа</th>
+                <th>Дата заказа</th>
+                <th>Статус</th>
+                <th>Сумма</th>
+                <th>Детали</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.get_status_display }}</td>
+                <td>{{ order.total_price }} руб.</td>
+                <td><a href="{% url 'order_detail' order.id %}">Подробнее</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>У вас пока нет заказов.</p>
+{% endif %}
+{% endblock %}

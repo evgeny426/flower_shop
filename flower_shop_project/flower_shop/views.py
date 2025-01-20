@@ -7,6 +7,19 @@ from django.contrib.auth import login as auth_login
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import CartItem, Order, OrderItem, Flower
+from django.contrib.auth.decorators import login_required
+
+
+@login_required
+def order_history(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'flower_shop/order_history.html', {'orders': orders})
+
+
+def order_detail(request, order_id):
+    """Детали заказа."""
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, 'flower_shop/order_detail.html', {'order': order})
 
 
 class LoginView(auth_views.LoginView):

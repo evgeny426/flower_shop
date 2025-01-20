@@ -6,6 +6,56 @@
     <title>Магазин цветов "Цветочный рай"</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            background-image: url("{% static 'images/background.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .content-container {
+            background-color: rgba(0, 0, 0, 0.7);  /* Полупрозрачный черный фон */
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 1200px;
+            color: white;  /* Белый цвет текста */
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.8);  /* Полупрозрачный черный фон для шапки */
+            padding: 10px;
+            border-bottom: 1px solid #444;
+        }
+
+        nav a {
+            color: white;  /* Белый цвет */
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        nav a:hover {
+            color: #f0f0f0;  /* Светло-серый цвет при наведении */
+            text-decoration: underline;
+        }
+
+        h1, h2, h3 {
+            color: white;  /* Белый цвет */
+        }
+
+        .alert {
+            color: white;  /* Белый цвет */
+            background-color: rgba(0, 0, 0, 0.7);  /* Полупрозрачный черный фон */
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+    </style>
     <script>
         function logout() {
             fetch("{% url 'logout' %}", {
@@ -29,6 +79,7 @@
             <a href="{% url 'products' %}">Ассортимент</a>
             <a href="{% url 'cart' %}">Корзина</a>
             {% if user.is_authenticated %}
+                <a href="{% url 'order_history' %}">История заказов</a>
                 <div style="float: right;">
                     <span>Привет, {{ user.username }}!</span>
                     <a href="#" onclick="logout(); return false;">Выйти</a>
@@ -42,15 +93,17 @@
         </nav>
     </header>
     <main>
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-        {% block content %}
-        {% endblock %}
+        <div class="content-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            {% block content %}
+            {% endblock %}
+        </div>
     </main>
 </body>
 </html>
