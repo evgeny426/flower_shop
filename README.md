@@ -16,7 +16,7 @@
 1. **Клонируйте репозиторий**:
    ```bash
    git clone https://github.com/evgeny426/flower_shop.git
-   cd flower_shop/flower_shop_project
+   cd flower_shop_project
    ```
 
 2. **Создайте и активируйте виртуальное окружение**:
@@ -64,7 +64,7 @@
    ```
 3. **Запустите бота**:
    ```bash
-   cd flower_shop/flower_shop_project
+   cd flower_shop_project
    python bot.py
    ```
 
