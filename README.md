@@ -15,7 +15,7 @@
 
 1. **Клонируйте репозиторий**:
    ```bash
-   git clone https://github.com/ваш-username/flower_shop.git
+   git clone https://github.com/evgeny426/flower_shop.git
    cd flower_shop/flower_shop_project
    ```
 
