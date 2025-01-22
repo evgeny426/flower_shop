@@ -31,8 +31,9 @@
    pip install -r requirements.txt
    ```
 
-4. **Примените миграции**:
+4. **Настройте базу данных:**:
    ```bash
+   python manage.py makemigrations flower_shop
    python manage.py migrate
    ```
 
@@ -63,6 +64,7 @@
    ```
 3. **Запустите бота**:
    ```bash
+   cd flower_shop/flower_shop_project
    python bot.py
    ```
 
