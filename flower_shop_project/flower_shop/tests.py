@@ -40,6 +40,7 @@ class Test(unittest.IsolatedAsyncioTestCase):
                 total_price REAL,
                 address TEXT,
                 phone TEXT,
+                status TEXT,
                 created_at TEXT
             )
         ''')
@@ -55,7 +56,10 @@ class Test(unittest.IsolatedAsyncioTestCase):
         # Добавляем тестовые данные
         cls.cursor.execute('INSERT INTO flower_shop_user (id, username) VALUES (1, "test_user")')
         cls.cursor.execute('INSERT INTO flower_shop_flower (id, name) VALUES (1, "Роза")')
-        cls.cursor.execute('INSERT INTO flower_shop_order (id, user_id, total_price, address, phone, created_at) VALUES (1, 1, 1000, "ул. Ленина, д. 10", "+79123456789", "2023-10-10 14:30:00")')
+        cls.cursor.execute('''
+            INSERT INTO flower_shop_order (id, user_id, total_price, address, phone, status, created_at)
+            VALUES (1, 1, 1000, "ул. Ленина, д. 10", "+79123456789", "pending", "2023-10-10 14:30:00")
+        ''')
         cls.cursor.execute('INSERT INTO flower_shop_orderitem (order_id, flower_id, quantity) VALUES (1, 1, 2)')
         cls.conn.commit()
 
@@ -102,7 +106,7 @@ class Test(unittest.IsolatedAsyncioTestCase):
     async def test_send_notification(self, mock_send_message):
         """Тест для функции send_notification."""
         mock_send_message.return_value = None
-        order = (1, 1, 1000, "ул. Ленина, д. 10", "+79123456789", "2023-10-10 14:30:00")
+        order = (1, 1, 1000, "ул. Ленина, д. 10", "+79123456789", "pending", "2023-10-10 14:30:00")  # Добавлен status
         items = [(1, 2)]
         await send_notification(order, items, self.conn)
         mock_send_message.assert_called_once()
