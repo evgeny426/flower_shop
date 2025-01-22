@@ -16,7 +16,7 @@
 1. **Клонируйте репозиторий**:
    ```bash
    git clone https://github.com/ваш-username/flower_shop.git
-   cd flower_shop
+   cd flower_shop_project
    ```
 
 2. **Создайте и активируйте виртуальное окружение**:
